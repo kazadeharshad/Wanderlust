@@ -7,6 +7,10 @@ const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const session = require("express-session");
 const flash = require("connect-flash");
+const passport = require("passport");
+const LocalStrategy = require("passport-local");
+const User = require("./models/user.js");
+const wrapAsync = require("./utils/wrapAsync.js");
 
 const sessionOptions = {
     secret : "mysupersecretcode",
@@ -19,8 +23,9 @@ const sessionOptions = {
     }
 };
 
-const listings = require("./routes/listing.js");
-const reviews = require("./routes/review.js");
+const listingsRouter = require("./routes/listing.js");
+const reviewsRouter = require("./routes/review.js");
+const userRouter = require("./routes/user.js");
 
 main().then(()=> {
     console.log("connected to DB");
@@ -44,32 +49,28 @@ app.use(express.static(path.join(__dirname,"public")));
 app.use(session(sessionOptions));
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy (User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
+    res.locals.currUser = req.user;
     next();
 });
 
-
-app.use("/listings",listings);
-app.use("/listings/:id/reviews",reviews);
 
 app.get("/",(req,res) => {
     res.send("This is root");
 });
 
-// app.get("/testListing", async (req,res) => {
-//     let sampleListing = new Listing({
-//         title:"my new villa",
-//         description:"By the beach",
-//         price:12000,req
-//         location:"Calangute,Goa",
-//         country:"India"
-//     });
-//     await sampleListing.save();
-//     console.log("sample was saved.");
-//     res.send(sampleListing);
-// });
+
+app.use("/listings",listingsRouter);
+app.use("/listings/:id/reviews",reviewsRouter);
+app.use("/user",userRouter);
 
 app.all("/{*any}", (req, res,next)=>{
     next(new ExpressError(404, "Page not found!"));
