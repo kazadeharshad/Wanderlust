@@ -26,6 +26,7 @@ const sessionOptions = {
 const listingsRouter = require("./routes/listing.js");
 const reviewsRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
+const { redirecteUrl } = require("./middleware.js");
 
 main().then(()=> {
     console.log("connected to DB");
