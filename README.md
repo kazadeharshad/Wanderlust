@@ -1,34 +1,61 @@
 🌍 WanderLust
 
-WanderLust is a Travel-Tech web application inspired by Airbnb, designed for browsing, creating, managing, and reviewing property listings.
-It provides a responsive, user-friendly interface with robust backend features and modern validation practices.
+WanderLust is a full-stack Travel-Tech web application inspired by Airbnb, built for browsing, creating, managing, and reviewing property listings. The platform features a responsive UI, secure authentication, and robust backend architecture following modern best practices.
 
 ✨ Features
 
-🔹 Full CRUD functionality for property listings (Create, Read, Update, Delete)
+🔹 User Authentication & Authorization
 
-🔹 Review System – users can add reviews & ratings for each listing
+Secure login & signup using Passport-Local
 
-🔹 Flash Messages – instant success/error feedback using connect-flash and Bootstrap alerts
+Role-based access control (only owners can edit/delete their listings)
 
-🔹 Validation with Joi – schema-based request validation for secure & consistent data handling
+🔹 Property Listings (Full CRUD)
 
-🔹 Error Handling – centralized middleware + client-side error alerts
+Create, view, update, and delete property listings
 
-🔹 Responsive UI – built with HTML, CSS, JavaScript, EJS, and Bootstrap
+Authorization-protected routes
 
-🔹 Backend powered by Node.js & Express
+🔹 Review & Rating System
 
-🔹 Database with MongoDB for scalable data storage
+Authenticated users can add reviews and ratings
 
-🔹 Dynamic Content Rendering – seamless user experience with server-side EJS templates
+Ownership checks prevent unauthorized actions
 
-🔹 🚧 Work in Progress – more features & optimizations coming soon
+🔹 Flash Messages
+
+Real-time success & error feedback using connect-flash and Bootstrap alerts
+
+🔹 Data Validation with Joi
+
+Schema-based request validation for reliable & secure data handling
+
+🔹 Centralized Error Handling
+
+Custom middleware for consistent server-side error management
+
+Client-friendly error alerts
+
+🔹 Responsive & Dynamic UI
+
+Built with HTML, CSS, JavaScript, EJS, and Bootstrap
+
+Server-side rendering for seamless user experience
+
+🔹 Scalable Backend & Database
+
+RESTful backend powered by Node.js & Express
+
+MongoDB for efficient and scalable data storage
+
+🔹 🚧 Work in Progress
+
+Additional features, optimizations, and enhancements in development
 
 🛠️ Tech Stack
 
 Frontend: HTML, CSS, JavaScript, EJS, Bootstrap
 
-Backend: Node.js, Express, Joi (validation), connect-flash (flash messages)
+Backend: Node.js, Express, Passport-Local, Joi, connect-flash
 
 Database: MongoDB
