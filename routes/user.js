@@ -5,14 +5,13 @@ const passport = require("passport");
 const {redirectUrl} = require("../middleware.js");
 const userController = require("../controller/user.js");
 
-router.get("/signup",userController.renderSignupForm);
+router.route("/signup")
+    .get(userController.renderSignupForm)
+    .post(userController.signUp);
 
-router.post("/signup", userController.signUp);
-
-router.get("/login", userController.renderLiginForm);
-
-router.post("/login",
-    redirectUrl,
+router.route("/login")
+    .get( userController.renderLiginForm)
+    .post(redirectUrl,
     passport.authenticate("local", {
         failureRedirect:"/listings",
         failureFlash : true
