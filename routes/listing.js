@@ -5,22 +5,22 @@ const ExpressError = require("../utils/ExpressError.js");
 const Listing = require("../models/listing.js");
 const {isLoggedIn, isOwner, validateListing}= require("../middleware.js");
 const listingController = require("../controller/listing.js");
+const multer  = require('multer');
+const {storage} = require("../cloudconfig.js");
+const upload = multer({ storage });
 
-//index route
 router.route("/")
     .get( wrapAsync( listingController.index))
-    .post(validateListing, isLoggedIn, wrapAsync(listingController.createNewListing));
+    .post(validateListing, isLoggedIn, upload.single('listing[image]'), wrapAsync(listingController.createNewListing));
 
 router.route("/new")
 .get( isLoggedIn, listingController.renderNewForm);
 
-//show listing route
 router.route("/:id")
     .get( wrapAsync(listingController.showListings))
-    .put(validateListing, isLoggedIn, isOwner, wrapAsync(listingController.updateListing))
+    .put( isLoggedIn, isOwner, upload.single('listing[image]'), validateListing, wrapAsync(listingController.updateListing))
     .delete(isLoggedIn, isOwner, wrapAsync( listingController.destroyListing));
 
-//edit listing route
 router.get("/:id/edit", isLoggedIn, isOwner, wrapAsync(listingController.renderEditForm));
 
 module.exports = router;
