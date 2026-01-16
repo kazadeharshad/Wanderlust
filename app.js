@@ -67,12 +67,6 @@ app.use((req, res, next) => {
     next();
 });
 
-
-app.get("/",(req,res) => {
-    res.send("This is root");
-});
-
-
 app.use("/listings",listingsRouter);
 app.use("/listings/:id/reviews",reviewsRouter);
 app.use("/user",userRouter);

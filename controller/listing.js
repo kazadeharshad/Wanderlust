@@ -1,4 +1,6 @@
 const Listing = require("../models/listing.js");
+const axios = require("axios");
+
 
 module.exports.index = async (req, res) => {
     const listings = await Listing.find({});
@@ -9,6 +11,7 @@ module.exports.showListings = async (req,res) => {
     let id = req.params.id;
     const listing = await Listing.findById(id).populate({path :"reviews",populate:{path : "author"}}).populate("owner");
     //console.log (listing);
+    
     if(!listing){
         req.flash("error","Listing you Requsted for does not Exists!");
         res.redirect("/listings");
@@ -22,14 +25,29 @@ module.exports.renderNewForm = (req,res) => {
 }
 
 module.exports.createNewListing =  async (req,res,next) => {
+
+
+  //console.log(result.data[0]);
+    let newListing = Listing(req.body.listing);
+    const result = await axios.get(
+    "https://us1.locationiq.com/v1/search",
+    {
+      params: {
+        key: process.env.MAP_TOKEN,
+        q: newListing.location,
+        format: "json",
+        limit: 1
+      }
+    }
+  );
+    newListing.owner = req.user._id;
+    //console.log(newListing.owner); 
     let url = req.file.path;
     let filename = req.file.filename;
-    //console.log(url, "..", filename)
-    let newListing = Listing(req.body.listing);
-    newListing.owner = req.user._id;
-    //console.log(newListing.owner);
     newListing.image = {url, filename};
-    await newListing.save();
+    newListing.geometry = {type : 'Point', coordinates: [result.data[0].lon,result.data[0].lat]};
+    saveedListing = await newListing.save();
+    console.log(saveedListing);
     req.flash("success", "New Listing added!");
     res.redirect("/listings");
 }

@@ -1,4 +1,9 @@
 <% layout("/layouts/boilerplate") %>
+<script>
+    const mapToken = "<%= process.env.MAP_TOKEN %>";
+    const coords = <%- JSON.stringify(listing.geometry.coordinates || listing.geometry)%>;
+    console.log(coordinates);
+</script>
 <body>
     <div class="row mb-0">
         <div class="col-8 offset-2 mt-3">
@@ -7,7 +12,7 @@
                 <img src=<%=listing.image.url%> class="card-img-top show-img" alt="listing image">
                 <div class="card-body">
                     <p class="card-text">
-                        <i>~@<%=listing.owner.username%></i><br>
+                        Owned by <i>@<%=listing.owner.username%></i><br>
                     </p>
                     <p class="card-text">
                         <%=listing.description%> <br>
@@ -75,7 +80,9 @@
     <% } %>
 
     <div class="col-8 offset-2 mb-3 mt-3">
+        <% if(listing.reviews.length > 0) {%>
         <p><b>All reviews</b></h4>
+            <% }%>
         <div class="row">
             <%for(let review of listing.reviews) {%>
                 <div class="card col-5 mb-3 ms-3 review-card">
@@ -88,9 +95,20 @@
                         <button class="btn btn-sm btn-dark mb-2 mt-1">Delete</button>
                     </form>
                 </div>
+                <hr>
             <%}%>
+            
+            <h3>You will be Here</h3>
+<div id="map"  ></div>
+<pre id="coordinates" class="coordinates"></pre>
+
+<script src="/js/map.js">
+  </script>
         </div>
+           
         
     </div>
+
+    
     
 </body>
