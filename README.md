@@ -1,61 +1,141 @@
 🌍 WanderLust
 
-WanderLust is a full-stack Travel-Tech web application inspired by Airbnb, built for browsing, creating, managing, and reviewing property listings. The platform features a responsive UI, secure authentication, and robust backend architecture following modern best practices.
+WanderLust is a full-stack Travel-Tech web application inspired by Airbnb, built for browsing, creating, managing, and reviewing property listings.
+It features a responsive UI, secure authentication, image uploads, interactive maps, and a scalable backend following modern best practices.
+
+🚀 Live Demo
+
+🔗 Deployed Application:
+👉https://wanderlust-5y6a.onrender.com/listings
 
 ✨ Features
+🔐 User Authentication & Authorization
 
-🔹 User Authentication & Authorization
+Secure Login & Signup using Passport-Local
 
-Secure login & signup using Passport-Local
+Role-based access control
 
-Role-based access control (only owners can edit/delete their listings)
+Only listing owners can edit or delete their listings
 
-🔹 Property Listings (Full CRUD)
+Review ownership checks to prevent unauthorized actions
+
+🏠 Property Listings (Full CRUD)
 
 Create, view, update, and delete property listings
 
-Authorization-protected routes
+Protected routes with authorization middleware
 
-🔹 Review & Rating System
+Server-side rendering for fast and SEO-friendly pages
 
-Authenticated users can add reviews and ratings
+🖼️ Image Uploads (Cloudinary)
 
-Ownership checks prevent unauthorized actions
+Upload property images directly to Cloudinary
 
-🔹 Flash Messages
+Secure cloud storage with optimized image delivery
 
-Real-time success & error feedback using connect-flash and Bootstrap alerts
+Multiple images supported per listing
 
-🔹 Data Validation with Joi
+Automatic image handling during listing update & deletion
 
-Schema-based request validation for reliable & secure data handling
+🗺️ Maps & Geolocation (LocationIQ API)
 
-🔹 Centralized Error Handling
+Interactive maps integrated using LocationIQ
 
-Custom middleware for consistent server-side error management
+Automatic geocoding of listing locations
 
-Client-friendly error alerts
+Map markers displayed for each property
 
-🔹 Responsive & Dynamic UI
+Improves user experience and location clarity
 
-Built with HTML, CSS, JavaScript, EJS, and Bootstrap
+⭐ Review & Rating System
 
-Server-side rendering for seamless user experience
+Authenticated users can add reviews & ratings
 
-🔹 Scalable Backend & Database
+Ownership validation for review deletion
+
+Clean and structured review UI
+
+🔔 Flash Messages
+
+Instant success & error feedback
+
+Implemented using connect-flash and Bootstrap alerts
+
+✅ Data Validation with Joi
+
+Schema-based request validation
+
+Protects against invalid or malicious data
+
+Centralized validation logic
+
+⚠️ Centralized Error Handling
+
+Custom error-handling middleware
+
+Consistent server-side error responses
+
+User-friendly error messages on the client side
+
+📱 Responsive & Dynamic UI
+
+Built with HTML, CSS, JavaScript, EJS & Bootstrap
+
+Fully responsive across devices
+
+Clean and intuitive user interface
+
+🗄️ Scalable Backend & Database
 
 RESTful backend powered by Node.js & Express
 
 MongoDB for efficient and scalable data storage
 
-🔹 🚧 Work in Progress
-
-Additional features, optimizations, and enhancements in development
+Mongoose schemas with relationships and middleware
 
 🛠️ Tech Stack
+Frontend
 
-Frontend: HTML, CSS, JavaScript, EJS, Bootstrap
+HTML
 
-Backend: Node.js, Express, Passport-Local, Joi, connect-flash
+CSS
 
-Database: MongoDB
+JavaScript
+
+EJS
+
+Bootstrap
+
+Backend
+
+Node.js
+
+Express.js
+
+Passport-Local
+
+Joi
+
+connect-flash
+
+Database
+
+MongoDB
+
+Cloud & APIs
+
+Cloudinary – Image upload & storage
+
+LocationIQ API – Maps & geocoding
+
+Render – Deployment & hosting
+
+🚧 Work in Progress
+
+Advanced search & filters
+
+Wishlist / favorites feature
+
+Improved map interactions
+
+Performance & security optimizations
