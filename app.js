@@ -1,7 +1,6 @@
 if(process.env.NODE_ENV !== "production"){
     require('dotenv').config();
 }
-
 const express = require("express");
 const app = express();
 const mongoose =require("mongoose");
@@ -10,7 +9,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError.js");
 const session = require("express-session");
-const MongoStore = require('connect-mongo');
+const MongoStore = require('connect-mongo').default;
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -25,10 +24,7 @@ const dbURL = process.env.ATLASDB_URL;
 
 const store = MongoStore.create({
     mongoUrl : dbURL,
-    crypto: {
-        secret: process.env.SECRET,
-    },
-    ttl : 14 * 24 * 3600,
+    touchAfter : 24 * 60 * 60,
 });
 
 store.on("error", (err) => {
