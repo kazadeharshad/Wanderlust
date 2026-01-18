@@ -7,11 +7,24 @@ const {isLoggedIn, isOwner, validateListing}= require("../middleware.js");
 const listingController = require("../controller/listing.js");
 const multer  = require('multer');
 const {storage} = require("../cloudconfig.js");
-const upload = multer({ storage });
+const upload = multer({ storage,
+    // limits:{
+    // fileSize: 1024 * 1024 * 5,
+    // }
+ });
+
 
 router.route("/")
     .get( wrapAsync( listingController.index))
-    .post(validateListing, isLoggedIn, upload.single('listing[image]'), wrapAsync(listingController.createNewListing));
+  .post(
+  isLoggedIn,
+  upload.single("listing[image]"),
+ validateListing,
+  wrapAsync(listingController.createNewListing)
+);
+    // .post( isLoggedIn, 
+    //     upload.single('listing[image]'), 
+    //     validateListing, wrapAsync(listingController.createNewListing));
 
 router.route("/new")
 .get( isLoggedIn, listingController.renderNewForm);

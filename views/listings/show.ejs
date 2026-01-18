@@ -1,8 +1,8 @@
 <% layout("/layouts/boilerplate") %>
 <script>
     const mapToken = "<%= process.env.MAP_TOKEN %>";
-    const coords = <%- JSON.stringify(listing.geometry.coordinates || listing.geometry)%>;
-    console.log(coordinates);
+    const coords = <%- JSON.stringify(listing.geometry ? (listing.geometry.coordinates || listing.geometry) : null)%>;
+    console.log(coords);
 </script>
 <body>
     <div class="row mb-0">
@@ -12,7 +12,7 @@
                 <img src=<%=listing.image.url%> class="card-img-top show-img" alt="listing image">
                 <div class="card-body">
                     <p class="card-text">
-                        Owned by <i>@<%=listing.owner.username%></i><br>
+                        Owned by <i>@<%=listing.owner ? listing.owner.username : 'Unknown'%></i><br>
                     </p>
                     <p class="card-text">
                         <%=listing.description%> <br>
@@ -33,7 +33,7 @@
     </div>
     <div class="row mb-3">
         <div class="col-8 ">
-            <% if(currUser && currUser._id.equals(listing.owner._id)){ %>
+            <% if(currUser && listing.owner && currUser._id.equals(listing.owner._id)){ %>
                 <div class="show-btns">       
                     <a class="btn btn-dark edit-btn col-1 offset-3" href="/listings/<%=listing._id%>/edit"> 
                         Edit 
@@ -50,7 +50,7 @@
         <hr>
         <% if (currUser) {%> 
         <h4>Leave a review</h4>
-        <form action="/listings/<%=listing.id%>/reviews" method="POST" novalidate class="needs-validation">
+        <form action="/listings/<%=listing._id%>/reviews" method="POST" novalidate class="needs-validation">
             
             <div class="mb-3 mt-3">
                 <label for="rating" class="form-label">Rating</label>
@@ -80,23 +80,36 @@
     <% } %>
 
     <div class="col-8 offset-2 mb-3 mt-3">
-        <% if(listing.reviews.length > 0) {%>
-        <p><b>All reviews</b></h4>
-            <% }%>
-        <div class="row">
-            <%for(let review of listing.reviews) {%>
-                <div class="card col-5 mb-3 ms-3 review-card">
-                    <div class="card-body">
-                        <h5 class="card-title">@<%=review.author.username%></h5>
-                        <p class="starability-result card-text small-text" data-rating="<%=review.rating%>"></p>
-                        <p class="card-text mb-2"><%=review.comment%></p>
-                    </div>
-                    <form  method="POST" action="/listings/<%=listing._id%>/reviews/<%=review._id%>?_method=DELETE">
-                        <button class="btn btn-sm btn-dark mb-2 mt-1">Delete</button>
-                    </form>
-                </div>
-                <hr>
-            <%}%>
+        <% if (listing.reviews && listing.reviews.length > 0) { %>
+  <p><b>All reviews</b></p>
+
+  <div class="row">
+    <% for (let review of listing.reviews) { %>
+      <div class="card col-5 mb-3 ms-3 review-card">
+        <div class="card-body">
+          <h5 class="card-title">@<%= review.author.username %></h5>
+
+          <p
+            class="starability-result card-text small-text"
+            data-rating="<%= review.rating %>">
+          </p>
+
+          <p class="card-text mb-2"><%= review.comment %></p>
+        </div>
+
+        <form
+          method="POST"
+          action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+          <button class="btn btn-sm btn-dark mb-2 mt-1">Delete</button>
+        </form>
+      </div>
+      <hr>
+    <% } %>
+  </div>
+
+<% } else { %>
+  <p>No reviews yet.</p>
+<% } %>
             
             <h3>You will be Here</h3>
 <div id="map"  ></div>

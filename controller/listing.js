@@ -1,10 +1,12 @@
 const Listing = require("../models/listing.js");
 const axios = require("axios");
+const streamifier = require("streamifier");
+const { cloudinary } = require("../cloudconfig.js");
 
 
 module.exports.index = async (req, res) => {
     const listings = await Listing.find({});
-    res.render("listings/index.ejs", {listings});
+    return res.render("listings/index.ejs", {listings});
 }
 
 module.exports.showListings = async (req,res) => {
@@ -14,54 +16,61 @@ module.exports.showListings = async (req,res) => {
     
     if(!listing){
         req.flash("error","Listing you Requsted for does not Exists!");
-        res.redirect("/listings");
+        return res.redirect("/listings");
     }else{
-        res.render("listings/show.ejs", {listing});
+        return res.render("listings/show.ejs", {listing});
     }
 }
 
 module.exports.renderNewForm = (req,res) => {
-   res.render("listings/new.ejs");
+   return res.render("listings/new.ejs");
 }
 
 module.exports.createNewListing =  async (req,res,next) => {
-
-
-  //console.log(result.data[0]);
-    let newListing = Listing(req.body.listing);
-    const result = await axios.get(
-    "https://us1.locationiq.com/v1/search",
-    {
-      params: {
-        key: process.env.MAP_TOKEN,
-        q: newListing.location,
-        format: "json",
-        limit: 1
-      }
+    try {
+        let newListing = new Listing(req.body.listing);
+        
+        console.log("AFTER GEOLOCATION");
+      
+        let url = req.file.path;
+        let filename = req.file.filename;
+        newListing.image = {url, filename};
+        newListing.owner = req.user._id;
+        const result = await axios.get(
+        "https://us1.locationiq.com/v1/search",
+        {
+          params: {
+            key: process.env.MAP_TOKEN,
+            q: newListing.location,
+            format: "json",
+            limit: 1
+          },
+          timeout: 20000
+        }
+      );
+        newListing.geometry = {type : 'Point', coordinates: [result.data[0].lon,result.data[0].lat]};
+        const savedListing = await newListing.save();
+        console.log("SAVED LISTING IMAGE:", savedListing.image);
+        req.flash("success", "New Listing added!");
+        return res.redirect("/listings");
+    } catch(err) {
+        req.flash("error", "Error: " + (err.message || "Could not create listing"));
+        return res.redirect("/listings/new");
     }
-  );
-    newListing.owner = req.user._id;
-    //console.log(newListing.owner); 
-    let url = req.file.path;
-    let filename = req.file.filename;
-    newListing.image = {url, filename};
-    newListing.geometry = {type : 'Point', coordinates: [result.data[0].lon,result.data[0].lat]};
-    saveedListing = await newListing.save();
-    console.log(saveedListing);
-    req.flash("success", "New Listing added!");
-    res.redirect("/listings");
 }
+
+
 
 module.exports.renderEditForm = async (req,res) => {
     let id = req.params.id;
     const listing = await Listing.findById(id);
     if(!listing){
         req.flash("error", "Listing you requested for does not exists!");
-        res.redirect("/listings");
+        return res.redirect("/listings");
     }
     let originalUrl = listing.image.url;
     originalUrl = originalUrl.replace("/upload", "/upload/w_250")
-    res.render("listings/edit.ejs",{listing, originalUrl});
+    return res.render("listings/edit.ejs",{listing, originalUrl});
 }
 
 module.exports.updateListing = async (req,res) =>{
@@ -78,12 +87,12 @@ module.exports.updateListing = async (req,res) =>{
         await listing.save();
     }
     req.flash("success", "Listing edited!");
-    res.redirect(`/listings/${id}`);
+    return res.redirect(`/listings/${id}`);
 }
 
 module.exports.destroyListing = async (req,res) => {
     let id = req.params.id;
     await Listing.findByIdAndDelete(id);
     req.flash("success", "Listing Deleted!");
-    res.redirect("/listings");
+    return res.redirect("/listings");
 }

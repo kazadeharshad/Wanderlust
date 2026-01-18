@@ -10,6 +10,7 @@ module.exports.isLoggedIn = (req,res,next)=> {
         req.flash("error", "You are not Logged In, Please login first");
         return res.redirect("/user/login");
     }
+    console.log("USER LOGGED IN");
     next();
 }
 
@@ -40,6 +41,43 @@ module.exports.validateReview = (req,res,next) => {
     }
 }
 
+// module.exports.validateListing = (req, res, next) => {
+//     if (!req.body.listing) {
+//         req.flash("error", "Invalid listing data");
+//         return res.redirect("/listings/new");
+//     }
+
+//     const { error } = listingSchema.validate(req.body.listing);
+
+//     if (error) {
+//         const msg = error.details.map(el => el.message).join(", ");
+//         req.flash("error", msg);
+//         return res.redirect("/listings/new");
+//     }
+
+//     next();
+// };
+
+// module.exports.validateListing = (req, res, next) => {
+//     console.log("RAW BODY:", JSON.stringify(req.body, null, 2));
+//   // ✅ Guard against missing body
+//   if (!req.body || !req.body.listing) {
+//     req.flash("error", "Listing is required");
+//     return res.redirect("/listings/new");
+//   }
+
+//   // ✅ Validate the INNER object only
+//   const { error } = listingSchema.validate(req.body.listing);
+
+//   if (error) {
+//     const msg = error.details.map(el => el.message).join(", ");
+//     req.flash("error", msg);
+//     return res.redirect("/listings/new");
+//   }
+
+//   next();
+// };
+
 module.exports.validateListing = (req,res,next) => {
     let {error} = listingSchema.validate(req.body);
     if(error){
@@ -49,6 +87,7 @@ module.exports.validateListing = (req,res,next) => {
         next();
     }
 }
+
 
 module.exports.isAuthor = async (req, res, next) => {
     let {id, reviewId} = req.params;
