@@ -184,7 +184,7 @@ body{
 }
 
 #map {
-    width: 80vw;
+    width: 60vw;
     height: 350px;
     border-radius: 15px;
 }
@@ -232,11 +232,15 @@ body{
     }
 
     #map {
-        height: 250px;   /* smaller map on mobile */
+        height: 250px;
+        width: 95vw;   /* smaller map on mobile */
     }
 
     .show-btns {
         flex-direction: column;
         gap: 0.5rem;
+    }
+    .listing-card{
+        width: 96%;
     }
 }

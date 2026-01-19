@@ -6,7 +6,7 @@
 </script>
 <body >
     <div class="row mb-0 justify-content-center">
-        <div class="col-10 col-md-8 offset-2 mt-3">
+        <div class="col-10 col-md-8 offset-md-1 mt-3">
             <h3><%=listing.title%></h3>
             <div class="card show-card listing-card">
                 <img src=<%=listing.image.url%> class="card-img-top show-img" alt="listing image">
@@ -85,7 +85,7 @@
 
   <div class="row justify-content-center">
     <% for (let review of listing.reviews) { %>
-      <div class="card col-5 mb-3 ms-3 review-card">
+      <div class="card col-12 col-md-5 mb-3 ms-3 review-card">
         <div class="card-body">
           <h5 class="card-title">@<%= review.author.username %></h5>
 
