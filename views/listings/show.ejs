@@ -79,49 +79,38 @@
     </div>
     <% } %>
 
-    <div class="col-md-8 col-10 offset-md-2 mb-3 mt-3">
+    <div class="col-md-8 col-10 offset-md-2 mb-3 mt-3 justify-content-center">
         <% if (listing.reviews && listing.reviews.length > 0) { %>
-  <p><b>All reviews</b></p>
-
-  <div class="row justify-content-center">
-    <% for (let review of listing.reviews) { %>
-      <div class="card col-12 col-md-5 mb-3 ms-3 review-card">
-        <div class="card-body">
-          <h5 class="card-title">@<%= review.author.username %></h5>
-
-          <p
-            class="starability-result card-text small-text"
-            data-rating="<%= review.rating %>">
-          </p>
-
-          <p class="card-text mb-2"><%= review.comment %></p>
+        <p><b>All reviews</b></p>
+        <div class="row justify-content-center">
+            <% for (let review of listing.reviews) { %>
+                <div class="card col-12 col-md-5 mb-3 ms-3 review-card">
+                    <div class="card-body">
+                        <h5 class="card-title">@<%= review.author.username %></h5>
+                        <p
+                            class="starability-result card-text small-text"
+                            data-rating="<%= review.rating %>">
+                        </p>
+                        <p class="card-text mb-2"><%= review.comment %></p>
+                    </div>
+                    <form
+                        method="POST"
+                        action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
+                         <button class="btn btn-sm btn-dark mb-2 mt-1">Delete</button>
+                    </form>
+                </div>
+            <% } %>
+            <hr>
         </div>
-
-        <form
-          method="POST"
-          action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
-          <button class="btn btn-sm btn-dark mb-2 mt-1">Delete</button>
-        </form>
-      </div>
-    <% } %>
-    
-      <hr>
-  </div>
-
-<% } else { %>
-  <p>No reviews yet.</p>
-<% } %>
-            
-            <h3>You will be Here</h3>
-<div id="map"  ></div>
-<pre id="coordinates" class="coordinates"></pre>
-
-<script src="/js/map.js">
-  </script>
-        </div>
-           
-        
+        <% } else { %>
+        <p>No reviews yet.</p>
+        <% } %>
+        <h3>You will be Here</h3>
+        <div id="map"  ></div>
+        <pre id="coordinates" class="coordinates"></pre>
+        <script src="/js/map.js"></script>
     </div>
+</div>
 
     
     
