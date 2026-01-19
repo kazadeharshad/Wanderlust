@@ -6,7 +6,7 @@
 </script>
 <body>
     <div class="row mb-0">
-        <div class="col-8 offset-2 mt-3">
+        <div class="col-10 col-md-8 offset-2 mt-3">
             <h3><%=listing.title%></h3>
             <div class="card show-card listing-card">
                 <img src=<%=listing.image.url%> class="card-img-top show-img" alt="listing image">
@@ -32,7 +32,7 @@
         </div>
     </div>
     <div class="row mb-3">
-        <div class="col-8 ">
+        <div class="col-md-8 col-10">
             <% if(currUser && listing.owner && currUser._id.equals(listing.owner._id)){ %>
                 <div class="show-btns">       
                     <a class="btn btn-dark edit-btn col-1 offset-3" href="/listings/<%=listing._id%>/edit"> 
@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <div class="col-8 offset-2 mb-3 mt-3">
+    <div class="col-md-8 col-10 offset-md-2 mb-3 mt-3">
         <hr>
         <% if (currUser) {%> 
         <h4>Leave a review</h4>
@@ -79,7 +79,7 @@
     </div>
     <% } %>
 
-    <div class="col-8 offset-2 mb-3 mt-3">
+    <div class="col-md-8 col-10 offset-md-2 mb-3 mt-3">
         <% if (listing.reviews && listing.reviews.length > 0) { %>
   <p><b>All reviews</b></p>
 

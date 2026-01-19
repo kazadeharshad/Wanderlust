@@ -184,7 +184,7 @@ body{
 }
 
 #map {
-    width: 900px;
+    width: 80vw;
     height: 350px;
     border-radius: 15px;
 }
