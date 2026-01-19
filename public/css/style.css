@@ -32,7 +32,7 @@ body{
 }
 /* Navbar */
 .navbar{
-    height: 5rem;
+    min-height: 5rem;
     background-color: white;
 }
 
@@ -224,4 +224,20 @@ body{
     display: flex;
     align-items: center;
     margin-left: 2rem;
+}
+/* Responsive adjustments */
+@media (max-width: 768px) {
+
+    .show-img {
+        max-height: 40vh;
+    }
+
+    #map {
+        height: 250px;   /* smaller map on mobile */
+    }
+
+    .show-btns {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
 }
